@@ -1,0 +1,210 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="brand-title">StudyFlow</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="main-content">
+  <div class="welcome-section ion-padding">
+    <h1>Halo, {{ username }} 👋</h1>
+    <p>Yuk selesaikan tugasmu hari ini 🚀</p>
+  </div>
+
+  <ion-card class="stat-card">
+    <ion-card-content>
+      <h2 class="card-label">Progress Belajar</h2>
+      <div class="progress-info">
+        <span class="pct">{{ getProgress() * 100 | number:'1.0-0' }}%</span>
+      </div>
+
+      <ion-progress-bar 
+        [value]="getProgress()" 
+        color="danger" 
+        class="custom-progress">
+      </ion-progress-bar>
+      
+      <ion-row class="ion-margin-top">
+        <ion-col size="6" class="stat-item">
+          <ion-icon name="checkmark-circle" color="medium"></ion-icon>
+          <div class="stat-value">{{ getCountSelesai() }}</div>
+          <div class="stat-label">Selesai</div>
+        </ion-col>
+        <ion-col size="6" class="stat-item">
+          <ion-icon name="time" color="medium"></ion-icon>
+          <div class="stat-value">{{ getCountBelum() }}</div>
+          <div class="stat-label">Belum</div>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="timer-card ion-text-center">
+    <ion-card-content>
+      <h3 class="timer-title">FOKUS BELAJAR</h3>
+      <h1 class="timer-display">{{ displayTime }}</h1>
+
+      <div class="timer-controls">
+        <ion-button fill="clear" (click)="resetTimer()">
+          <ion-icon name="refresh-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button 
+          (click)="isTimerRunning ? stopTimer() : startTimer()" 
+          [color]="isTimerRunning ? 'danger' : 'primary'" 
+          class="btn-mulai">
+          <ion-icon 
+            [name]="isTimerRunning ? 'pause' : 'play'" 
+            slot="start">
+          </ion-icon>
+          {{ isTimerRunning ? 'PAUSE' : 'MULAI' }}
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="task-section ion-padding">
+    <div *ngFor="let t of listTugas; let i = index" class="task-item ion-margin-bottom">
+      <div class="task-header">
+        <h3>{{ t.judul }}</h3>
+        <ion-badge [color]="t.status === 'Selesai' ? 'success' : 'medium'">
+          {{ t.status }}
+        </ion-badge>
+      </div>
+
+      <p class="task-desc">{{ t.deskripsi }}</p>
+
+      <div class="task-footer">
+        <ion-icon name="alarm-outline" color="danger"></ion-icon>
+        <span class="ion-padding-start">{{ t.deadline | date:'dd MMM yyyy, HH:mm' }}</span>
+      </div>
+
+      <div class="task-actions ion-margin-top">
+        <ion-button size="small" color="success" (click)="toggleStatus(i)">
+          <ion-icon name="checkmark"></ion-icon>
+        </ion-button>
+
+        <ion-button size="small" color="warning" (click)="openModal(t, i)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button size="small" color="danger" (click)="hapusTugas(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="tertiary" (click)="bukaModalRingkasan()">
+      <ion-icon name="sparkles"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-modal [isOpen]="isModalOpen" (didDismiss)="isModalOpen = false">
+  <ng-template>
+    <ion-header class="ion-no-border">
+      <ion-toolbar color="dark">
+        <ion-title>{{ isEditMode ? 'Edit Tugas' : 'Tambah Tugas' }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isModalOpen = false" color="light">TUTUP</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="modal-content">
+      <div class="modal-body ion-padding">
+        <ion-item lines="full" class="input-item">
+          <ion-input 
+            label="Judul tugas"
+            labelPlacement="stacked"
+            [(ngModel)]="judul"
+            placeholder="Contoh: Belajar Angular">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="input-item ion-margin-top">
+          <ion-textarea 
+            label="Deskripsi"
+            labelPlacement="stacked"
+            [(ngModel)]="deskripsi"
+            placeholder="Masukkan detail tugas..."
+            rows="4">
+          </ion-textarea>
+        </ion-item>
+
+        <div class="ion-margin-top">
+          <ion-label class="ion-padding-start" style="font-size: 14px; color: gray;">Deadline :</ion-label>
+          <ion-datetime
+            presentation="date-time"
+            [(ngModel)]="deadline"
+            color="primary"
+            class="custom-datetime">
+          </ion-datetime>
+        </div>
+      </div>
+    </ion-content>
+
+    <ion-footer class="ion-no-border ion-padding">
+      <ion-button expand="block" (click)="simpanTugas()" shape="round" color="primary" style="height: 50px;">
+        <ion-icon slot="start" name="save-outline"></ion-icon>
+        SIMPAN TUGAS
+      </ion-button>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+<ion-modal [isOpen]="isModalRingkasanOpen" (didDismiss)="isModalRingkasanOpen = false">
+  <ng-template>
+    <ion-header class="ion-no-border">
+      <ion-toolbar color="tertiary">
+        <ion-title>AI Summarizer 🤖</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="isModalRingkasanOpen = false">TUTUP</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding" style="--background: #1e1e1e;">
+      <div class="summary-header">
+        <h3 style="color: white; font-weight: 700; margin-bottom: 5px;">Tempel Teks Materi</h3>
+        <p style="color: #aaa; font-size: 0.8rem; margin-top: 0;">AI akan mengambil inti sari teks panjangmu secara offline.</p>
+      </div>
+
+      <ion-textarea 
+        fill="outline" 
+        rows="10" 
+        [(ngModel)]="teksInputRingkasan" 
+        placeholder="Tempel teks panjang di sini..."
+        style="--background: #2a2a2a; color: white; border-radius: 15px; margin-top: 10px; font-size: 0.9rem;">
+      </ion-textarea>
+
+      <ion-button expand="block" color="tertiary" class="ion-margin-top" (click)="prosesRingkasOtomatis()" style="height: 50px; font-weight: 700;">
+        ✨ RINGKAS SEKARANG
+      </ion-button>
+
+      <div *ngIf="hasilRingkasan" class="ion-padding ion-margin-top" 
+           style="background: #2a2a2a; border-radius: 15px; border: 1px solid #7b61ff; animation: fadeIn 0.5s;">
+        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+          <ion-icon name="checkmark-done-circle" color="tertiary" style="font-size: 1.2rem;"></ion-icon>
+          <p style="color: #8e84ff; font-weight: bold; margin: 0 0 0 8px;">HASIL RINGKASAN:</p>
+        </div>
+        
+        <p style="color: white; line-height: 1.6; margin-top: 5px; font-size: 0.95rem;">
+          {{ hasilRingkasan }}
+        </p>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

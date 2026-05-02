@@ -1,0 +1,207 @@
+/* ================= BACKGROUND ================= */
+ion-content {
+  --background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ================= WELCOME ================= */
+.welcome-section {
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.welcome-section h1 {
+  font-weight: 800;
+  margin: 0;
+  font-size: 22px;
+}
+
+.welcome-section p {
+  color: #666;
+  margin-top: 4px;
+}
+
+/* ================= STAT CARD ================= */
+.stat-card {
+  border-radius: 20px;
+  --background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  margin-bottom: 15px;
+}
+
+.card-label {
+  font-weight: 700;
+  margin: 0;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pct {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+}
+
+.custom-progress {
+  margin-top: 10px;
+  height: 10px;
+  border-radius: 10px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #777;
+}
+
+/* ================= TIMER ================= */
+.timer-card {
+  border-radius: 20px;
+  --background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.timer-display {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 15px 0;
+  letter-spacing: 2px;
+}
+
+.timer-card ion-button {
+  --border-radius: 12px;
+  font-weight: bold;
+}
+
+/* ================= TASK CARD ================= */
+ion-card {
+  border-radius: 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: 0.25s ease;
+  --background: white;
+}
+
+ion-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.1);
+}
+
+/* ================= TEXT ================= */
+ion-card h3 {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+ion-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 2px 0;
+}
+
+/* ================= BADGE ================= */
+ion-badge {
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* ================= BUTTON ================= */
+ion-button[size="small"] {
+  --border-radius: 10px;
+  font-size: 12px;
+  height: 30px;
+}
+
+/* CUSTOM COLOR */
+ion-button[color="tertiary"] {
+  --background: #7b61ff;
+  --color: white;
+}
+
+/* HOVER EFFECT */
+ion-button:hover {
+  transform: scale(1.05);
+}
+
+/* ================= FAB ================= */
+ion-fab-button {
+  --background: linear-gradient(135deg, #7b61ff, #5a4bff);
+  --box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+/* ================= MODAL ================= */
+ion-modal {
+  --border-radius: 20px;
+}
+
+/* ================= MODAL BUTTON ================= */
+.btn-summary {
+  --background: #8e84ff !important;
+  --color: white;
+  --border-radius: 12px;
+  height: 50px;
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0;
+}
+
+.btn-summary .emoji-ai {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.btn-save {
+  --background: #4a89ff !important;
+  --color: white;
+  --border-radius: 12px;
+  height: 50px;
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0;
+  box-shadow: 0 4px 10px rgba(74, 137, 255, 0.3);
+}
+
+/* ================= FOOTER MODAL ================= */
+ion-footer {
+  --background: #1e1e1e !important;
+}
+
+/* ================= DATETIME ================= */
+.custom-datetime {
+  --background: #2a2a2a;
+  border-radius: 16px;
+  margin-top: 10px;
+  color: white;
+}
+
+/* ================= RINGKASAN ================= */
+ion-card ion-card-content b {
+  color: #7b61ff;
+}
+
+ion-card ion-card-content p {
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* ================= EMPTY STATE ================= */
+.ion-text-center p {
+  color: #888;
+  margin-top: 20px;
+}
